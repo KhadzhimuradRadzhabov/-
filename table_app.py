@@ -41,7 +41,7 @@ if mnn_selection:
             #mime='application/vnd.ms-excel'
         )
     #sdfsdf
-elif class1_selection or class2_selection or class3_selection or ephmra1_selection or ephmra2_selection or ephmra3_selection or atc1 or atc2 or atc3:
+elif class1_selection or class2_selection or class3_selection or ephmra1_selection or ephmra2_selection or ephmra3_selection or atc1_selection or atc2_selection or atc3_selection:
     df = table.copy()
     if class1_selection:
         df = df[df['New Form Classification Lev 1'].isin(class1_selection)]
