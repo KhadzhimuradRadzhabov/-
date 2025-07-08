@@ -81,6 +81,11 @@ if mnn_selection:
 
         else:
             row = df_mnn.iloc[0].to_dict()
+            if pd.notnull(row.get("CAGR 5Y, руб")):
+                row["CAGR 5Y, руб"] = "{:.1%}".format(row["CAGR 5Y, руб"])
+
+            if pd.notnull(row.get("CAGR 5Y, уп")):
+                row["CAGR 5Y, уп"] = "{:.1%}".format(row["CAGR 5Y, уп"])
             aggregated_rows.append(row)
 
     final_df = pd.DataFrame(aggregated_rows)
