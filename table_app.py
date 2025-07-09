@@ -4,7 +4,7 @@ import streamlit as st
 import io
 from collections import OrderedDict
 
-input_file = r"\\alpha\Р-Фарм\Дирекция Розничный бизнес\Общие файлы\Основная таблица.csv"
+input_file = r"Основная таблица.csv"
 table = pd.read_csv(input_file)
 table = table.drop(columns=['Unnamed: 0'])
 
@@ -81,14 +81,11 @@ if mnn_selection:
 
         else:
             row = df_mnn.iloc[0].to_dict()
-            if pd.notnull(row.get("CAGR 5Y, руб")):
-                row["CAGR 5Y, руб"] = "{:.1%}".format(row["CAGR 5Y, руб"])
-
-            if pd.notnull(row.get("CAGR 5Y, уп")):
-                row["CAGR 5Y, уп"] = "{:.1%}".format(row["CAGR 5Y, уп"])
             aggregated_rows.append(row)
 
     final_df = pd.DataFrame(aggregated_rows)
+    final_df["CAGR 5Y, руб"] = final_df["CAGR 5Y, руб"].apply(lambda x: "{:.1%}".format(x) if pd.notnull(x) else None)
+    final_df["CAGR 5Y, уп"] = final_df["CAGR 5Y, уп"].apply(lambda x: "{:.1%}".format(x) if pd.notnull(x) else None)
     st.dataframe(final_df)
 
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
