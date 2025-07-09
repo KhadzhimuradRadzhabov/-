@@ -84,8 +84,13 @@ if mnn_selection:
             aggregated_rows.append(row)
 
     final_df = pd.DataFrame(aggregated_rows)
-    final_df["CAGR 5Y, руб"] = final_df["CAGR 5Y, руб"].apply(lambda x: "{:.1%}".format(x) if pd.notnull(x) else None)
-    final_df["CAGR 5Y, уп"] = final_df["CAGR 5Y, уп"].apply(lambda x: "{:.1%}".format(x) if pd.notnull(x) else None)
+    
+    final_df["CAGR 5Y, руб"] = final_df["CAGR 5Y, руб"].apply(
+    lambda x: "{:.1%}".format(float(x)) if pd.notnull(x) and isinstance(x, (int, float)) else x)
+
+    final_df["CAGR 5Y, уп"] = final_df["CAGR 5Y, уп"].apply(
+    lambda x: "{:.1%}".format(float(x)) if pd.notnull(x) and isinstance(x, (int, float)) else x)
+    
     st.dataframe(final_df)
 
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
